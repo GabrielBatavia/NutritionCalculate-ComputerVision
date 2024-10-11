@@ -63,6 +63,8 @@ Untuk membuat aplikasi seperti yang kamu rencanakan, ada beberapa teknologi dan 
    git clone https://github.com/username/NutritionCalculate-ComputerVision.git
 
 
+<br>
+<br>
 
 # Plan A
 # Rice Weight Estimation using Object Detection + Weight Mapping
