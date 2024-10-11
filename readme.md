@@ -55,8 +55,69 @@ Untuk membuat aplikasi seperti yang kamu rencanakan, ada beberapa teknologi dan 
 - Menghitung bobot atau berat makanan juga memerlukan penyesuaian kamera, karena gambar 2D tidak bisa langsung memberikan informasi tentang volume atau berat tanpa referensi.
 - Kamu bisa menggunakan referensi ukuran seperti **coin calibration** atau **fiducial markers** pada piring untuk memperkirakan skala objek.
 
+
 ## Installation
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/username/NutritionCalculate-ComputerVision.git
+
+
+
+# Plan A
+# Rice Weight Estimation using Object Detection + Weight Mapping
+
+This project utilizes object detection techniques (YOLOv5 or SSD) to detect rice in a plate from an image and predict its weight. The model detects the rice as an object, calculates the bounding box area, and maps it to the weight using a regression model.
+
+## Table of Contents
+- [Introduction](#introduction)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Dataset](#dataset)
+- [Training the Object Detection Model](#training-the-object-detection-model)
+- [Weight Mapping with Regression](#weight-mapping-with-regression)
+- [Running the Model](#running-the-model)
+- [Results](#results)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Introduction
+This project aims to estimate the weight of rice on a plate using computer vision. We use YOLOv5 (You Only Look Once) or SSD (Single Shot Detector) for object detection to localize the rice and then apply a regression model to map the bounding box size to the actual weight of rice in grams.
+
+This solution is designed to work on any device with a standard camera, making it a flexible and accessible approach for users without the need for specialized sensors (such as depth cameras).
+
+## Technology Stack
+The project uses the following technologies:
+- **YOLOv5** for object detection, implemented with PyTorch.
+- **TensorFlow** or **SSD** as an alternative object detection model.
+- **Scikit-learn** for regression mapping from bounding box size to weight.
+- **OpenCV** for image processing and bounding box measurements.
+
+## Dataset
+You need a dataset of rice images with labeled bounding boxes and corresponding weights. Each image should have a label file that defines the bounding box coordinates for the rice and the true weight in grams.
+
+- You can create your own dataset by capturing images of rice in different quantities on plates.
+- Use tools like **LabelImg** or **Roboflow** to annotate the images with bounding boxes around the rice.
+
+The dataset structure should look like this:
+![image](https://github.com/user-attachments/assets/18ad84ee-7679-4363-b3c5-736b6c1454ed)
+
+
+## Training the Object Detection Model
+Once the dataset is ready, you can train the YOLOv5 or SSD model to detect rice.
+
+1. **Train YOLOv5**:
+    ```bash
+    python yolov5/train.py --img 640 --batch 16 --epochs 50 --data data.yaml --weights yolov5s.pt
+    ```
+
+2. **Train SSD**:
+    Follow the TensorFlow Object Detection API instructions for training SSD models.
+
+## Weight Mapping with Regression
+Once the object detection model is trained and can accurately detect rice, we use regression to estimate the weight based on the bounding box size.
+
+1. Extract bounding box size from detected images.
+2. Train a regression model (e.g., Linear Regression, Random Forest) to map bounding box size to actual weight.
+
